@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import com.github.javaparser.ast.expr.FieldAccessExpr;
 
-import godFinder.Method;
+import fileAnalyzer.Method;
 
 public class ATFD {
 	

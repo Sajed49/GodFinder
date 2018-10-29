@@ -1,4 +1,4 @@
-package godFinder;
+package io;
 
 import java.io.File;
 

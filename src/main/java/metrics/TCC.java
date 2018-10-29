@@ -3,7 +3,7 @@ package metrics;
 import java.util.ArrayList;
 import java.util.List;
 
-import godFinder.Method;
+import fileAnalyzer.Method;
 
 public class TCC {
 	

@@ -1,4 +1,4 @@
-package godFinder;
+package fileAnalyzer;
 import java.util.ArrayList;
 
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
