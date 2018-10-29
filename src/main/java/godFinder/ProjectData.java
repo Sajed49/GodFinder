@@ -35,7 +35,7 @@ public class ProjectData {
 				
 				if( cli.isInterface() == false ) {
 					//System.out.println(file);
-					makeClassData(cli, file);
+					makeClassData( cli );
 				}
 				else interfaceNames.add(cli.getNameAsString());
 			});
@@ -44,10 +44,11 @@ public class ProjectData {
 		
 	}
 	
-	private void makeClassData( ClassOrInterfaceDeclaration cli , String path) {
+	private void makeClassData( ClassOrInterfaceDeclaration cli) {
 		
 		classNames.add(cli.getNameAsString());
-		ClassData cd = new ClassData(cli, new File(path) );
+		
+		new ClassData(cli);
 	}
 	
 	private void getFilePaths( File projectDir ) {
