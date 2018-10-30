@@ -33,7 +33,6 @@ public class App
 			new RawData(rootDirectory, resultDirectory);
 			
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
         

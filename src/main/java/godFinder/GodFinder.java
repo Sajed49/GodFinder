@@ -44,7 +44,7 @@ public class GodFinder {
 			int wmc = Integer.valueOf( temp.get(2) );
 			double tcc = Double.valueOf( temp.get(3) );
 			
-			if( atfd > 5 && wmc > 47 && tcc > 0.33) result.add(temp);
+			if( atfd > 5 && wmc >= 47 && tcc < 0.33) result.add(temp);
 		}
 	}
 	
