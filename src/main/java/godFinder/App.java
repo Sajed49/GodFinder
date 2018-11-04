@@ -2,6 +2,7 @@ package godFinder;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 
 import javax.swing.JFileChooser;
 
@@ -10,8 +11,10 @@ import fileAnalyzer.RawData;
 public class App 
 {	
 	
-	private String rootDirectory = "";
-	private String resultDirectory = "Result//";
+	private String rootDirectory = "E:\\Metrics Data";
+	private String resultDirectory = "Result\\RawData\\";
+	private ArrayList<File> versionFolders = new ArrayList<File>();
+	
     public static void main( String[] args )
     {	
     	new App();
@@ -21,22 +24,40 @@ public class App
     
     public App() {
     	
-    	while( rootDirectory.equals("") ) selectRootDirectory();
+    	//while( rootDirectory.equals("") ) selectRootDirectory();
+    	
+    	getVersionFolders();
     	createResultDirectory();
     	
-    	processing();
+    	makeRawData();
 	}
     
-    private void processing() {
+    
+    private void getVersionFolders() {
     	
-    	try {
-			new RawData(rootDirectory, resultDirectory);
-			
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-        
-        new GodFinder( resultDirectory+"raw.csv", resultDirectory );
+    	File root = new File(rootDirectory);
+    	
+    	for( File version: root.listFiles() ) {
+    		
+    		if( version.isDirectory() ) {
+    			versionFolders.add(version);
+    		}
+    	}
+    }
+    
+    private void makeRawData() {
+    	
+    	
+    	for( File currentVersion: versionFolders) {
+    		
+    		try {
+    			new RawData(currentVersion, resultDirectory);
+    		}
+    		catch (FileNotFoundException e) {
+    			e.printStackTrace();
+			}
+    	}
+        //new GodFinder( resultDirectory+"raw.csv", resultDirectory );
     }
     
     private void createResultDirectory() {
