@@ -81,7 +81,7 @@ public class RawData {
 		
 		temp.add( Integer.toString( cd.atfd.getAtfd() ) );
 		temp.add( Integer.toString( cd.wmc.getWmc() ) );
-		temp.add( Double.toString( Math.round( cd.tcc.getTcc()*100)/100D ) );
+		temp.add( Double.toString( cd.tcc.getTcc() ) );
 		
 		
 		

@@ -24,7 +24,8 @@ public class Unifier {
 	private Map<String, Integer> classMap = new TreeMap<String, Integer>();
 	
 	private ArrayList<File> featureFiles = new  ArrayList<File>();
-	
+	private ArrayList< ArrayList< ArrayList<String> > > normalizedData = 
+			new ArrayList< ArrayList< ArrayList<String> > >();
 	
 	public static void main(String[] args) {
 		new Unifier();
@@ -42,12 +43,41 @@ public class Unifier {
 		
 		mapClasses();
 
-		unifyFeatureData();
+		combineVersionData();
+		
+		getNormalizedSum();
 	}
 	
 	
+	private void getNormalizedSum() {
+		
+		ArrayList< ArrayList<String> > data = new ArrayList<ArrayList<String>>();
+		
+		addClasses(data); // Add the path and class name
+		
+		for( int k=0; k<normalizedData.get(0).size(); k++ ) { //row count
+				
+			for(int i=useLessColumns; i< normalizedData.get(0).get(0).size() ; i++) { //column count
+				
+				double temp = 0;
+				for( int j=0; j<normalizedData.size(); j++ ) { //feature file count
+					
+					String s = normalizedData.get(j).get(k).get(i);
+					
+					if( j == 2) temp += (1.000-Double.parseDouble(s)); //tcc less is better
+					else temp += Double.parseDouble(s);
+
+				}
+				
+				data.get(k).add( doubleToString(temp) );
+			}
+		}
+		
+		CustomFileWriter.writeAFile( new File(outputPath+"All Features.csv"), data);
+	}
 	
-	private void unifyFeatureData() {
+	
+	private void combineVersionData() {
 		
 		int featureID = useLessColumns;
 		
@@ -56,14 +86,13 @@ public class Unifier {
 			ArrayList< ArrayList<String> > data = new ArrayList<ArrayList<String>>();
 			
 			addClasses(data);
-			//System.out.println( data.get(410).size());
-			addSinglefeatureData(data, featureID);
-			//System.out.println( data.get(410).size());
-			featureID++;
-			//System.out.println( data.get(410).size());
+			
+			addSinglefeatureData(data, featureID++);
+			
 			normalizeData(data);
 			
-			//System.out.println( data.get(410).size());
+			normalizedData.add(data);
+			
 			CustomFileWriter.writeAFile(currentFeatureFile, data);
 		}
 	}
@@ -89,18 +118,24 @@ public class Unifier {
 		for(ArrayList<String> line: data  ) {
 			
 			for( int i=useLessColumns; i<line.size(); i++) {
+				
 				double temp = Double.parseDouble( line.get(i) );
 				temp = ( temp - lowest ) / ( highest - lowest);
 				
-				BigDecimal bd = new BigDecimal(temp);
-			    bd = bd.setScale(2, RoundingMode.HALF_UP);
-			    temp =  bd.doubleValue();
-			    
-				line.set(i, String.valueOf( (temp*100)/100D ) );
+				line.set(i, doubleToString(temp) );
 			}
 			
 		}
 		//System.out.println(data.get(0));
+	}
+	
+	private String doubleToString(double temp) {
+		
+		BigDecimal bd = new BigDecimal(temp);
+	    bd = bd.setScale(5, RoundingMode.HALF_UP);
+	    temp =  bd.doubleValue();
+	    
+	    return  String.valueOf(temp);
 	}
 	
 	private void addSinglefeatureData( ArrayList< ArrayList<String> > data, int id ) {
