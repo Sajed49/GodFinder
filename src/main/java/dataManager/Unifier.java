@@ -27,6 +27,8 @@ public class Unifier {
 	private ArrayList< ArrayList< ArrayList<String> > > normalizedData = 
 			new ArrayList< ArrayList< ArrayList<String> > >();
 	
+	private String nullValue = "?";
+	
 	public static void main(String[] args) {
 		new Unifier();
 	}
@@ -60,16 +62,24 @@ public class Unifier {
 			for(int i=useLessColumns; i< normalizedData.get(0).get(0).size() ; i++) { //column count
 				
 				double temp = 0;
+				int flag = 0;
+				
 				for( int j=0; j<normalizedData.size(); j++ ) { //feature file count
 					
 					String s = normalizedData.get(j).get(k).get(i);
+					
+					if( s.equals(nullValue)) {
+						flag = 1;
+						break; //null value
+					}
 					
 					if( j == 2) temp += (1.000-Double.parseDouble(s)); //tcc less is better
 					else temp += Double.parseDouble(s);
 
 				}
 				
-				data.get(k).add( doubleToString(temp) );
+				if(flag == 1) data.get(k).add( nullValue );
+				else data.get(k).add( doubleToString(temp) );
 			}
 		}
 		
@@ -106,6 +116,8 @@ public class Unifier {
 		for(ArrayList<String> line: data  ) {
 			
 			for( int i=useLessColumns; i<line.size(); i++) {
+				
+				if( line.get(i).equals(nullValue)) continue;
 				double temp = Double.parseDouble( line.get(i) );
 				
 				if( temp > highest ) highest = temp;
@@ -118,6 +130,8 @@ public class Unifier {
 		for(ArrayList<String> line: data  ) {
 			
 			for( int i=useLessColumns; i<line.size(); i++) {
+				
+				if( line.get(i).equals(nullValue)) continue;
 				
 				double temp = Double.parseDouble( line.get(i) );
 				temp = ( temp - lowest ) / ( highest - lowest);
@@ -154,7 +168,7 @@ public class Unifier {
 			}
 			
 			for( ArrayList<String> temp: data) {
-				if( temp.size() < counter) temp.add("0");
+				if( temp.size() < counter) temp.add(nullValue);
 			}
 		}
 		

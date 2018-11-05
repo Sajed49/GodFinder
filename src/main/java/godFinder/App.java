@@ -11,7 +11,7 @@ import fileAnalyzer.RawData;
 public class App 
 {	
 	
-	private String rootDirectory = "E:\\Metrics Data";
+	private String rootDirectory = "D:\\dataset\\Spring-boot";
 	private String resultDirectory = "Result\\RawData\\";
 	private ArrayList<File> versionFolders = new ArrayList<File>();
 	
@@ -51,6 +51,7 @@ public class App
     	for( File currentVersion: versionFolders) {
     		
     		try {
+    			System.out.println( currentVersion.getName());
     			new RawData(currentVersion, resultDirectory);
     		}
     		catch (FileNotFoundException e) {
